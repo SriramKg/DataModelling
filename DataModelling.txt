@@ -1,0 +1,152 @@
+
+P1 Solution :
+
+Entities and Attributes
+
+1. Theatre
+    - TheatreID (Primary Key)
+    - Name
+    - Location
+
+2. Movie
+    - MovieID (Primary Key)
+    - Title
+    - Genre
+    - Duration
+
+3. Show
+    - ShowID (Primary Key)
+    - TheatreID (Foreign Key)
+    - MovieID (Foreign Key)
+    - ShowDate
+    - ShowTime
+
+4. Ticket
+    - TicketID (Primary Key)
+    - ShowID (Foreign Key)
+    - SeatID (Foreign Key)
+    - UserID (Foreign Key)
+    - Price
+
+5. User
+    - UserID (Primary Key)
+    - Name
+    - Email
+
+6. Seat
+    - SeatID (Primary Key)
+    - TheatreID (Foreign Key)
+    - SeatNumber
+
+7. Date
+    - DateID (Primary Key)
+    - ShowDate
+
+Table Structures and SQL Queries
+
+Theatre Table
+CREATE TABLE Theatre (
+     TheatreID INT PRIMARY KEY,
+     Name VARCHAR(100),
+     Location VARCHAR(100)
+);
+
+Movie Table
+CREATE TABLE Movie (
+     MovieID INT PRIMARY KEY,
+     Title VARCHAR(100),
+     Genre VARCHAR(50),
+     Duration INT
+);
+
+Show Table
+CREATE TABLE Show (
+     ShowID INT PRIMARY KEY,
+     TheatreID INT,
+     MovieID INT,
+     ShowDate DATE,
+     ShowTime TIME,
+     FOREIGN KEY (TheatreID) REFERENCES Theatre(TheatreID),
+     FOREIGN KEY (MovieID) REFERENCES Movie(MovieID)
+);
+
+Ticket Table
+CREATE TABLE Ticket (
+     TicketID INT PRIMARY KEY,
+     ShowID INT,
+     SeatID INT,
+     UserID INT,
+     Price DECIMAL(10, 2),
+     FOREIGN KEY (ShowID) REFERENCES Show(ShowID),
+     FOREIGN KEY (SeatID) REFERENCES Seat(SeatID),
+     FOREIGN KEY (UserID) REFERENCES User(UserID)
+);
+
+User Table
+CREATE TABLE User (
+     UserID INT PRIMARY KEY,
+     Name VARCHAR(100),
+     Email VARCHAR(100)
+);
+
+Seat Table
+CREATE TABLE Seat (
+     SeatID INT PRIMARY KEY,
+     TheatreID INT,
+     SeatNumber VARCHAR(10),
+     FOREIGN KEY (TheatreID) REFERENCES Theatre(TheatreID)
+);
+
+Date Table
+CREATE TABLE Date (
+     DateID INT PRIMARY KEY,
+     ShowDate DATE
+);
+
+Sample Entries
+
+Theatre Table
+INSERT INTO Theatre (TheatreID, Name, Location) VALUES
+(1, 'PVR Heritage', 'ECR'),
+(2, 'Mayajaal', 'ECR');
+
+Movie Table
+INSERT INTO Movie (MovieID, Title, Genre, Duration) VALUES
+(1, 'The G.O.A.T', 'Sci-Fi', 148),
+(2, 'Manjumel Boys', 'Drama', 195);
+
+Show Table
+INSERT INTO Show (ShowID, TheatreID, MovieID, ShowDate, ShowTime) VALUES
+(1, 1, 1, '2024-09-29', '18:00:00'),
+(2, 1, 2, '2024-08-01', '21:00:00');
+
+Ticket Table
+INSERT INTO Ticket (TicketID, ShowID, SeatID, UserID, Price) VALUES
+(1, 1, 1, 1, 120.00),
+(2, 1, 2, 2, 120.00),
+(3, 2, 3, 1, 120.00);
+
+User Table
+INSERT INTO User (UserID, Name, Email) VALUES
+(1, 'Sriram', 'kgsriram99@gmail.com'),
+(2, 'Dheepak', 'dheepak@xyz.com');
+
+Seat Table
+INSERT INTO Seat (SeatID, TheatreID, SeatNumber) VALUES
+(1, 1, 'A1'),
+(2, 1, 'A2'),
+(3, 1, 'B1');
+
+Date Table
+INSERT INTO Date (DateID, ShowDate) VALUES
+(1, '2023-10-01'),
+(2, '2023-10-02');
+
+P2 Solution :
+
+Query to List Shows on a Given Date at a Given Theatre
+SELECT s.ShowID, m.Title, s.ShowTime
+FROM Show s
+JOIN Theatre t ON s.TheatreId = t.TheatreId
+JOIN Movie m ON s.MovieID = m.MovieID
+WHERE s.ShowDate = '2024-09-29' AND t.name = "PVR Heritage";
