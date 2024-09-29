@@ -139,8 +139,8 @@ INSERT INTO Seat (SeatID, TheatreID, SeatNumber) VALUES
 
 Date Table
 INSERT INTO Date (DateID, ShowDate) VALUES
-(1, '2023-10-01'),
-(2, '2023-10-02');
+(1, '2024-09-29'),
+(2, '2024-08-01');
 
 P2 Solution :
 
